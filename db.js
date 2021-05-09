@@ -91,18 +91,3 @@ module.exports = {
     Delete,
     Update 
 };
-
-
-// Test function
-(async ()=> {
-    const users = 'users'
-    // console.log(await Create(users, {
-    //     email: 'duckmiester@warnerbros.com',
-    //     password: 'bugsSUcks',
-    //     firstName: 'Daffy',
-    //     lastName: 'Duck',
-    //     role: 'basic'
-    // }));
-    //console.log(await Update(users, ['firstName', 'lastName'], ['Bilbo', 'Baggins'], 1));
-    console.log(await Get(users, 'id', 1));
-})()
