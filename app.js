@@ -1,9 +1,10 @@
+require('dotenv').config();
 const path = require("path");
 const express = require("express");
 const userRouter = require("./routes/userRoute");
+const db = require('./db');
 
 // Sets up the process.env file for use
-require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
