@@ -14,14 +14,13 @@ const QueryDatabase = async (queryString, escapedValueArray = []) => {
         let results = await pool.query(queryString, escapedValueArray);
         return results = results[0].length === 1 ? results[0][0] : results[0];
     } catch(err) {
-        return err;
+        throw err;
     }
 }
 
 const Get = async (table, key, value, table_column = '*') => {
     if(!table || !key || !value) throw 'table, key and value must be used to access database via get';
     return await QueryDatabase(`SELECT ${table_column} FROM ${table} WHERE ${key} = ?`, [value]);
-
 }
 
 const GetAll = async (table, table_column = '*') =>
@@ -55,19 +54,22 @@ const Create = async (table, objectToCreate) => {
         }     
     }
     queryString += valuesString;
-    return await QueryDatabase(queryString, values);
+    try{
+        return await QueryDatabase(queryString, values);
+    } catch(err) {throw err;}
 }
 
 const Update = async (table, keyArray, valueArray, id) => {
     if(!table || !keyArray || !valueArray || !id) throw 'table, key, value, and id must be valid';
-    if(keyArray.length !== valueArray.length || valueArray.length <= 0 || keyArray.length <= 0) throw 'key array and value array must have equal lengths and must be greater than 0';
+    if(keyArray.length !== valueArray.length || valueArray.length <= 0 || keyArray.length <= 0 || (typeof key === 'string' ||  myVar instanceof String)) 
+        throw 'key array and value array must have equal lengths and must be greater than 0';
 
     let queryString = `UPDATE ${table} SET `;
 
     for (let i = 0; i < keyArray.length; i++) {
         const key = keyArray[i];
         if(key == 'id')
-            throw `cannot update id of table ${table}`
+            return `cannot update id of table ${table}`
 
         if(i !== keyArray.length -1)
             queryString += `${key} = ?, `;
