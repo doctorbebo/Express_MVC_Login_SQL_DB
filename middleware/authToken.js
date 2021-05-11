@@ -1,10 +1,9 @@
 const jwt = require('jsonwebtoken');
 
-// Token black list is to create a more secure logging out enviroment
-const tokenBlackList = []; 
 
 // Loops through blackList and removes invalid tokens. 
 const CleanUpBlackList = () => {
+    
     for (let i = tokenBlackList.length -1; i >= 0; i--) {
         const token = tokenBlackList[i];
         try {
@@ -38,8 +37,7 @@ const verify = (req, res, next) => {
     }
 }
 
-const sign = (req, res, next) =>
-{
+const sign = (req, res, next) => {
     const id = req.body.id;
 
     if(!id)
@@ -55,6 +53,7 @@ const signOut = (req, res, next) => {
 
     if(req.header('auth-token'));
         tokenBlackList.push(req.header('auth-token')); 
+
 
     res.header('auth-token', '');
     next();
