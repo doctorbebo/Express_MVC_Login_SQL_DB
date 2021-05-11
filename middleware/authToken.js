@@ -29,6 +29,7 @@ const verify = (req, res, next) => {
     try {
         const decodedUser = jwt.verify(authToken, process.env.TOKEN_SECRET);
         req.body.id = decodedUser.id;
+        if(!req.body.id) return res.status(401).send('Invalid Token');
         next();
         CleanUpBlackList();
     } 

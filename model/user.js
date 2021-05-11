@@ -3,26 +3,29 @@ const util = require('../util/util');
 
 const table = 'users';
 
-const Role =  {
+const Roles =  {
     BASIC: 'Basic',
     ADMIN: 'Admin'
 }
 
-const Create = async(email, password, firstName, lastName, role = 'Basic') => {
+const Create = async(userObject) => {
 
-    if(!email || !password || !firstName || !lastName)
-        throw 'email password firstName lastName must be valid';
+    // const keys = Object.keys(userObject);
+    // keys.forEach(key => {
+    //     if(key === 'email)
+    // })
 
-    if(role !== Role.BASIC && role !== Role.ADMIN)
-        throw 'role must be "Basic" or "Admin"';
+    // if(!email || !password || !firstName || !lastName)
+    //     throw 'email password firstName lastName must be valid';
 
-    if(!util.validateEmail(email))
-        return 'email must be a valid email';
+    // if(role !== Role.BASIC && role !== Role.ADMIN)
+    //     throw 'role must be "Basic" or "Admin"';
+
+    // if(!userObject.email || !util.validateEmail(userObject.email))
+    //     return 'email must be a valid email';
 
     try {
-        const ret = await db.Create(table, {email, password, firstName, lastName, role});
-        console.log(ret);
-        return await db.Get(ret.insertId);
+        return await db.Create(table, userObject);
     } catch (err) {
         throw err;
     }
@@ -32,9 +35,9 @@ const Get = async (emailOrId) => {
 
     try {
         if(util.validateEmail(emailOrId))
-        return await db.Get(table, 'email', emailOrId);
+            return await db.Get(table, 'email', emailOrId);
         else
-        return await db.Get(table, 'id', emailOrId);
+            return await db.Get(table, 'id', emailOrId);
     } catch (err) {
         throw err;
     }
@@ -59,7 +62,7 @@ const GetMany = async (key, value) => {
 
 const Update =  async (id, key, newValue) => {
     console.log;
-    if(!key.length || (typeof key === 'string' ||  myVar instanceof String)) {
+    if(!key.length || (typeof key === 'string' ||  key instanceof String)) {
         key = [key];
         newValue = [newValue];
     }
@@ -81,6 +84,16 @@ const Delete = async (id) => {
         throw err;
     }
 } 
+
+module.exports = 
+{
+    Create, 
+    Get,
+    GetMany,
+    Update,
+    Delete,
+    Roles
+}
 
 // (async () => {
 //     try {

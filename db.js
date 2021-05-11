@@ -19,8 +19,16 @@ const QueryDatabase = async (queryString, escapedValueArray = []) => {
 }
 
 const Get = async (table, key, value, table_column = '*') => {
-    if(!table || !key || !value) throw 'table, key and value must be used to access database via get';
-    return await QueryDatabase(`SELECT ${table_column} FROM ${table} WHERE ${key} = ?`, [value]);
+    try {
+        if(!table || !key || !value) throw new Error ('table, key and value must be used to access database via get');
+        const user = await QueryDatabase(`SELECT ${table_column} FROM ${table} WHERE ${key} = ?`, [value]);
+        if(user.length === 0)
+            return undefined;
+        return user;
+    } catch(err) {
+        throw err;
+    }
+
 }
 
 const GetAll = async (table, table_column = '*') =>
@@ -61,7 +69,7 @@ const Create = async (table, objectToCreate) => {
 
 const Update = async (table, keyArray, valueArray, id) => {
     if(!table || !keyArray || !valueArray || !id) throw 'table, key, value, and id must be valid';
-    if(keyArray.length !== valueArray.length || valueArray.length <= 0 || keyArray.length <= 0 || (typeof key === 'string' ||  myVar instanceof String)) 
+    if(keyArray.length !== valueArray.length || valueArray.length <= 0 || keyArray.length <= 0 || (typeof keyArray === 'string' ||  keyArray instanceof String)) 
         throw 'key array and value array must have equal lengths and must be greater than 0';
 
     let queryString = `UPDATE ${table} SET `;
