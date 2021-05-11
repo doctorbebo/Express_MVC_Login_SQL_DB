@@ -1,3 +1,2 @@
 node_modules/
-# Remove this line and the asterisk in the next. 
-# .env 
+.env 
